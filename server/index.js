@@ -42,7 +42,15 @@ passport.deserializeUser(async (id, done) => {
 });
 
 // Helper function: syncDb();
-const syncDb = () => db.sync();
+const syncDb = () => {
+  if (process.env.NODE_ENV === "production") {
+    db.sync();
+  }
+  else {
+    console.log("As a reminder, the forced synchronization option is on")
+    db.sync({force: true});
+  }
+};
 
 // Helper function: createApp();
 const createApp = () => {
@@ -107,5 +115,5 @@ async function bootApp() {
   await startListening();
 }
 
-// Invoke appropriate function depending on how this file is called;
+// Invoke appropriate function depending on how/where this file is called;
 require.main === module ? bootApp() : createApp();
