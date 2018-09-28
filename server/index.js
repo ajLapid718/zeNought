@@ -3,6 +3,7 @@ const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const compression = require("compression");
+const helmet = require("helmet");
 const session = require("express-session");
 const passport = require("passport");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
@@ -58,6 +59,7 @@ const createApp = () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(compression());
+  app.use(helmet());
 
   app.use(
     session({
